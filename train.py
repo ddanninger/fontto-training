@@ -3,6 +3,7 @@ from options.train_options import TrainOptions
 from data.data_loader import CreateDataLoader
 from models.models import create_model
 from util.visualizer import Visualizer
+from slackbot import slackbot
 
 opt = TrainOptions().parse()
 data_loader = CreateDataLoader(opt)
@@ -14,6 +15,9 @@ model = create_model(opt)
 visualizer = Visualizer(opt)
 total_steps = 0
 time_start_training = time.time()
+total_epoch = opt.niter + opt.niter_decay
+bot = slackbot()
+bot.trainingBegin(opt.name, total_epoch, opt.save_epoch_freq)
 
 for epoch in range(opt.epoch_count, opt.niter + opt.niter_decay + 1):
     epoch_start_time = time.time()
@@ -47,16 +51,19 @@ for epoch in range(opt.epoch_count, opt.niter + opt.niter_decay + 1):
     if epoch % opt.save_epoch_freq == 0:
         print('saving the model at the end of epoch %d, iters %d' %
               (epoch, total_steps))
-        print('Time Taken: %s' % time.strftime(
-            "%H:%M:%S", time.gmtime(time.time() - time_start_training)))
+        time_taken = time.strftime(
+            "%H:%M:%S", time.gmtime(time.time() - time_start_training))
+        print('Time Taken: %s' % time_taken)
+        bot.trainingProgress(opt.name, epoch, time_taken)
         model.save('latest')
         model.save(epoch)
 
     print('End of epoch %d / %d \t Time Taken: %d sec' %
-          (epoch, opt.niter + opt.niter_decay, time.time() - epoch_start_time))
+          (epoch, total_epoch, time.time() - epoch_start_time))
     model.update_learning_rate()
 
-print(
-    'End of training of epoch (%d) \t Time Taken: %s' %
-    (opt.niter + opt.niter_decay,
-     time.strftime("%H:%M:%S", time.gmtime(time.time() - time_start_training))))
+time_taken = time.strftime("%H:%M:%S",
+                           time.gmtime(time.time() - time_start_training))
+print('End of training of epoch (%d) \t Time Taken: %s' % (total_epoch,
+                                                           time_taken))
+bot.trainingDone(opt.name, total_epoch, time_taken)
