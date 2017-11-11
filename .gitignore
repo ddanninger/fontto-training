@@ -40,4 +40,5 @@ test/.coverage
 test/data/legacy_serialized.pt
 *~
 
-testsets/
+testsets*/
+fonts_*/
