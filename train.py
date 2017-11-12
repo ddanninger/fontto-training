@@ -17,7 +17,7 @@ total_steps = 0
 time_start_training = time.time()
 total_epoch = opt.niter + opt.niter_decay
 bot = slackbot()
-bot.trainingBegin(opt.name, total_epoch, opt.save_epoch_freq)
+bot.trainingBegin(opt.name, total_epoch, opt.slack_freq)
 
 for epoch in range(opt.epoch_count, opt.niter + opt.niter_decay + 1):
     epoch_start_time = time.time()
@@ -54,9 +54,12 @@ for epoch in range(opt.epoch_count, opt.niter + opt.niter_decay + 1):
         time_taken = time.strftime(
             "%H:%M:%S", time.gmtime(time.time() - time_start_training))
         print('Time Taken: %s' % time_taken)
-        bot.trainingProgress(opt.name, epoch, time_taken)
         model.save('latest')
         model.save(epoch)
+    if epoch % opt.slack_freq == 0:
+        time_taken = time.strftime(
+            "%H:%M:%S", time.gmtime(time.time() - time_start_training))
+        bot.trainingProgress(opt.name, epoch, time_taken)
 
     print('End of epoch %d / %d \t Time Taken: %d sec' %
           (epoch, total_epoch, time.time() - epoch_start_time))
