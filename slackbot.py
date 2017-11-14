@@ -4,7 +4,7 @@ from slackclient import SlackClient
 
 class slackbot:
 
-    def __init__(self, data_name, token=-1):
+    def __init__(self, data_name="0000_0000", token=-1):
         if token == -1:
             slack_token = os.environ["SLACK_TOKEN_TRAINING"]
         else:
