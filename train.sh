@@ -1,4 +1,4 @@
-if [ $# -lt 2 ]; then
+if [ $# -lt 3 ]; then
   echo '$1 <hangle A>, $2 <hangle B>, $3 <epoch>'
   exit
 fi
@@ -42,7 +42,7 @@ printf "done! converting data into algned images [%s]\n" ${DATASET_DIR}/${OUTPUT
 # training
 printf "start training"
 echo ${OUTPUT_DIR}_pix2pix
-python train.py --dataroot ${DATASET_DIR}/${OUTPUT_DIR}/AB --name ${OUTPUT_DIR}_pix2pix --model pix2pix --which_model_netG unet_256 --which_direction AtoB --lambda_A 100 --dataset_mode aligned --no_lsgan --no_flip --norm batch --pool_size 0 --display_id=0 --gpu_ids=0,1,2,3 --batchSize=60 --niter=$3 --niter_decay=0 --save_epoch_freq=$3 --loadSize=256 --fineSize=256 --input_nc=1 --output_nc=1 --slack_freq=200
+python train.py --dataroot ${DATASET_DIR}/${OUTPUT_DIR}/AB --name ${OUTPUT_DIR}_pix2pix --model pix2pix --which_model_netG unet_256 --which_direction AtoB --lambda_A 100 --dataset_mode aligned --no_lsgan --no_flip --norm batch --pool_size 0 --display_id=0 --gpu_ids=0,1,2,3 --batchSize=60 --niter=$3 --niter_decay=0 --save_epoch_freq=$3 --loadSize=256 --fineSize=256 --input_nc=1 --output_nc=1 --slack_freq=200 --no_html --nThreads=6
 printf "done! training"
 python send_to_slack.py --msg="학습이 종료되었습니다." --channel=training
 
