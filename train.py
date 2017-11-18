@@ -64,9 +64,9 @@ for epoch in range(opt.epoch_count, opt.niter + opt.niter_decay + 1):
             model.save('latest')
         if (is_debugging):
             iter_end_time = time.time()
-            print("::[%d]time_etc: (%4f)::::" % (i,
+            print("::[%d]time_etc: (%4f)::" % (i,
                   iter_end_time - time_after_modelOptimize))
-            print("::[%d]time_total_iter: (%4f)::::" % (i,
+            print("::[%d]time_total_iter: (%4f)::" % (i,
                   iter_end_time - iter_start_time))
             print("")
             time_before_dataEnum = time.time()
