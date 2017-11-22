@@ -88,6 +88,7 @@ for epoch in range(opt.epoch_count, opt.niter + opt.niter_decay + 1):
           (epoch, total_epoch, time.time() - epoch_start_time))
     model.update_learning_rate()
 
+model.save(epoch)
 time_taken = time.strftime("%H:%M:%S",
                            time.gmtime(time.time() - time_start_training))
 print('End of training of epoch (%d) \t Time Taken: %s' % (total_epoch,
