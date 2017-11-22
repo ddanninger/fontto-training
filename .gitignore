@@ -43,3 +43,5 @@ test/data/legacy_serialized.pt
 testsets*/
 fonts_*/
 trash/
+.idea/
+*.iml
