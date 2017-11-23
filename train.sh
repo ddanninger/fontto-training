@@ -50,7 +50,7 @@ python send_to_slack.py --msg="학습이 종료되었습니다." --channel=train
 
 
 # upload pth to S3
-if [ -d ${CHECK_DIR}/${OUTPUT_DIR}_pix2pix/$3_net_G.pth ]
+if [ -f ${CHECK_DIR}/${OUTPUT_DIR}_pix2pix/$3_net_G.pth ]
 then
   aws s3 cp ${CHECK_DIR}/${OUTPUT_DIR}_pix2pix/$3_net_G.pth s3://fontto/data/pths/${UNICODE_A}/${UNICODE_A}_${UNICODE_B}/
   python send_to_slack.py --msg="`printf "[%s_%s/%s_net_G.pth]가 s3에 업로드 되었습니다." $UNICODE_A $UNICODE_B $3`" --channel=training
