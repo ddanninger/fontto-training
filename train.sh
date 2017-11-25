@@ -8,7 +8,7 @@ fi
 echo `date`
 printf "_____________start training [%s]->[%s], epoch [%s]_____________\n" $1 $2 $3
 # dataset argument
-JPG_DIR=fonts_256
+JPG_DIR=fonts200_demo_v2
 DATASET_DIR=datasets
 CHECK_DIR=checkpoints
 
@@ -18,6 +18,7 @@ GPU_IDS=0,1,2,3
 SLACK_FREQ=200
 BATCH_SIZE=60
 SAVE_EPOCH_FREQ=100
+LEARNING_RATE=0.002
 
 
 UNICODE_A=`printf "%X" "'$1'"`
@@ -40,9 +41,9 @@ fi
 # training
 printf "start training\n"
 echo ${OUTPUT_DIR}_pix2pix
-python train.py --dataroot ${DATASET_DIR}/${OUTPUT_DIR}/AB --name ${OUTPUT_DIR}_pix2pix --model pix2pix --which_model_netG unet_256 --which_direction AtoB --lambda_A 100 --dataset_mode aligned --no_lsgan --no_flip --norm batch --pool_size 0 --display_id=0 --gpu_ids=${GPU_IDS} --batchSize=${BATCH_SIZE} --niter=$3 --niter_decay=0 --save_epoch_freq=${SAVE_EPOCH_FREQ} --loadSize=256 --fineSize=256 --input_nc=1 --output_nc=1 --slack_freq=${SLACK_FREQ} --nThreads=${NUM_THREADS} --print_freq=50
+python train.py --dataroot ${DATASET_DIR}/${OUTPUT_DIR}/AB --name ${OUTPUT_DIR}_pix2pix --model pix2pix --which_model_netG unet_256 --which_direction AtoB --lambda_A 100 --dataset_mode aligned --no_lsgan --no_flip --norm batch --pool_size 0 --display_id=0 --gpu_ids=${GPU_IDS} --batchSize=${BATCH_SIZE} --niter=$3 --niter_decay=0 --save_epoch_freq=${SAVE_EPOCH_FREQ} --loadSize=256 --fineSize=256 --input_nc=1 --output_nc=1 --slack_freq=${SLACK_FREQ} --nThreads=${NUM_THREADS} --print_freq=50 --lr=${LEARNING_RATE}
 printf "done! training\n"
-python send_to_slack.py --msg="학습이 종료되었습니다." --channel=training
+python send_to_slack.py --msg="[$1 -> $2 epoch($3)]학습이 종료되었습니다." --channel=training
 
 
 # test

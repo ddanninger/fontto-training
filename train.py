@@ -81,7 +81,7 @@ for epoch in range(opt.epoch_count, opt.niter + opt.niter_decay + 1):
     if epoch % opt.slack_freq == 0:
         time_taken = time.strftime(
             "%H:%M:%S", time.gmtime(time.time() - time_start_training))
-        bot.trainingProgress(epoch, time_taken)
+        bot.trainingProgress(epoch, total_epoch, time_taken)
 
     print('End of epoch %d / %d \t Time Taken: %d sec' %
           (epoch, total_epoch, time.time() - epoch_start_time))

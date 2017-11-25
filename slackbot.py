@@ -31,12 +31,12 @@ class slackbot:
         # print(text)
         self.sendToTraining(text)
 
-    def trainingProgress(self, epoch, time_taken):
+    def trainingProgress(self, epoch, total_epoch, time_taken):
         text = \
 '''        [%c -> %c]
-        진행 에폭 : [%d]
+        진행 에폭 : [%d / %d]
         지금까지 걸린 시간 : [%s]
-''' % (self.name_A, self.name_B, epoch, time_taken)
+''' % (self.name_A, self.name_B, epoch, total_epoch, time_taken)
         self.sendToTraining(text)
 
     def trainingDone(self, total_epoch, time_taken):
