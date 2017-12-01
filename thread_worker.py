@@ -1,5 +1,9 @@
 import threading, pika, logging, json
-# from back_processing import back_processing
+from back_processing import back_processing
+
+
+def is_korean(unicode_input):
+    return unicode_input >= '가' and unicode_input <= '힣'
 
 
 class ThreadWorker(threading.Thread):
@@ -27,13 +31,19 @@ class ThreadWorker(threading.Thread):
         logging.info("received %r" % body)
 
         received_message = json.loads(body.decode('utf8').replace("'", '"'))
+        character_A = received_message['character1']
+        character_B = received_message['character2']
+        epoch = received_message['epoch']
+        print(type(epoch))
 
-        # you can use like this
-        # received_message['unicode1']
-        # received_message['unicode2']
-        # received_message['epoch']
-        # back_processing(received_message['userId'], received_message['count'],
-        #                 received_message['unicodes'], received_message['env'])
+
+        if (not is_korean(unicode_A) or not is_korean(unicode_B) or
+                not type(epoch) == int):
+            logging.warning(
+                '!!!Wrong Input!!! [unicode_A : %s], [unicode_B : %s], [epoch : %s] '
+                % (unicode_A, unicode_B, epoch))
+        else:
+            back_processing(unicode_A, unicode_B, epoch)
 
         received_message_dumps = json.dumps(received_message, indent=4)
         print(received_message_dumps)
