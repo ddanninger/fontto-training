@@ -34,7 +34,6 @@ class ThreadWorker(threading.Thread):
         character_A = received_message['character1']
         character_B = received_message['character2']
         epoch = received_message['epoch']
-        print(type(epoch))
 
         if (not is_korean(character_A) or not is_korean(character_B) or
                 not type(epoch) == int):

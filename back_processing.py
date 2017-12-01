@@ -4,8 +4,6 @@ import os
 
 
 def back_processing(character_A, character_B, epoch):
-
-    print(type(character_A))
     unicode_A = hex(ord(character_A))[2:].upper()
     unicode_B = hex(ord(character_B))[2:].upper()
     try:
