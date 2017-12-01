@@ -45,3 +45,6 @@ fonts_*/
 trash/
 .idea/
 *.iml
+
+node_modules/
+output.log
