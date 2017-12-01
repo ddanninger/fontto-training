@@ -36,14 +36,13 @@ class ThreadWorker(threading.Thread):
         epoch = received_message['epoch']
         print(type(epoch))
 
-
-        if (not is_korean(unicode_A) or not is_korean(unicode_B) or
+        if (not is_korean(character_A) or not is_korean(character_B) or
                 not type(epoch) == int):
             logging.warning(
-                '!!!Wrong Input!!! [unicode_A : %s], [unicode_B : %s], [epoch : %s] '
+                '!!!Wrong Input!!! [character_A : %s], [character_B : %s], [epoch : %s] '
                 % (unicode_A, unicode_B, epoch))
         else:
-            back_processing(unicode_A, unicode_B, epoch)
+            back_processing(character_A, character_B, epoch)
 
         received_message_dumps = json.dumps(received_message, indent=4)
         print(received_message_dumps)
