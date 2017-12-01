@@ -40,7 +40,7 @@ class ThreadWorker(threading.Thread):
                 not type(epoch) == int):
             logging.warning(
                 '!!!Wrong Input!!! [character_A : %s], [character_B : %s], [epoch : %s] '
-                % (unicode_A, unicode_B, epoch))
+                % (character_A, character_A, epoch))
         else:
             back_processing(character_A, character_B, epoch)
 
