@@ -29,7 +29,6 @@ if (!checkArgs(flags)) {
 
     const queue = 'dev_trainingQueue';
     const amqpUrl = process.env.AMQP_TRAINING
-    console.log(amqpUrl);
 
     amqp.connect(amqpUrl, function (err, conn) {
         if (err !== null) bail(err);
