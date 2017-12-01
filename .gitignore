@@ -49,3 +49,4 @@ trash/
 node_modules/
 output.log
 training.log
+queue.log

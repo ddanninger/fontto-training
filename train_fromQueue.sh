@@ -9,7 +9,8 @@ IP_ADDRESS=`curl bot.whatismyipaddress.com`
 echo `date`
 printf "_____________start training [%s]->[%s], epoch [%s], ip [%s]_____________\n" $1 $2 $3 $IP_ADDRESS
 python send_to_slack.py --msg="[$IP_ADDRESS][start] 새로운 학습이 시작됩니다. [$1]->[$2], epoch [$3]" --channel=training_queue
-
+echo `date` >> queue.log
+echo "[시작] $1 $2 $3" >> queue.log
 
 # dataset argument
 JPG_DIR=fonts_demo_v3
@@ -61,11 +62,13 @@ then
   aws s3 cp ${CHECK_DIR}/${OUTPUT_DIR}_pix2pix/$3_net_G.pth s3://fontto/data/pths/${UNICODE_A}/${UNICODE_A}_${UNICODE_B}/
   python send_to_slack.py --msg="`printf "[%s_%s/%s_net_G.pth]가 s3에 업로드 되었습니다." ${UNICODE_A} ${UNICODE_B} $3`" --channel=training
   python send_to_slack.py --msg="[$IP_ADDRESS][done][성공] 학습이 종료됐습니다. [$1]->[$2], epoch [$3]" --channel=training_queue
+  echo "[성공] $1 $2 $3" >> queue.log
   
 else
   python send_to_slack.py --msg="`printf "[%s_%s/%s_net_G.pth]업로드가 실패했습니다. ip : [%s]" ${UNICODE_A} ${UNICODE_B} $3 ${IP_ADDRESS}`" --channel=training
   python send_to_slack.py --msg="[$IP_ADDRESS][done][실패] 학습이 종료됐습니다. [$1]->[$2], epoch [$3]****" --channel=training_queue
   printf "[%s]를 찾을 수 없습니다." ${CHECK_DIR}/${OUTPUT_DIR}_pix2pix/$3_net_G.pth
+  echo "**[실패] $1 $2 $3" >> queue.log
 fi
 
 # delete used data for space's sake
