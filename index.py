@@ -1,28 +1,12 @@
-import argparse, logging, thread_worker, sys
+import logging, thread_worker, sys
 from logging import handlers
-
-
-def parse_args():
-    desc = "ttf/otf fonts to jpg images set (JUST KOREAN)"
-    parser = argparse.ArgumentParser(description=desc)
-    parser.add_argument('--amqp-url', type=str, help='amqp url', required=True)
-    parser.add_argument('--queue', type=str, help='queue name', required=True)
-    parser.add_argument(
-        '--log-path',
-        type=str,
-        default='output.log',
-        help='log file path with filename',
-        required=False)
-
-    return parser.parse_args()
-
+import os
 
 def main():
     # set args
-    args = parse_args()
-    amqp_url = args.amqp_url
-    queue = args.queue
-    log_path = args.log_path
+    amqp_url = os.environ["AMQP_TRAINING"]
+    queue = 'dev_trainingQueue'
+    log_path = 'output.log'
     thread_num = 1
 
     # set logging
