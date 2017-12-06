@@ -8,7 +8,7 @@ fi
 echo `date`
 printf "_____________start training [%s]->[%s], epoch [%s]_____________\n" $1 $2 $3
 # dataset argument
-JPG_DIR=fonts_demo_v3
+JPG_DIR=written_all
 DATASET_DIR=datasets
 CHECK_DIR=checkpoints
 
