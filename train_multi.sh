@@ -33,7 +33,7 @@ do
 
     printf "_____________start training [%s]->[%s], epoch [%s], ip [%s]_____________\n" ${CHARACTER_A} ${CHARACTER_B} ${EPOCH} ${IP_ADDRESS}
     python send_to_slack.py --msg="[$IP_ADDRESS][$((i/2+1))/${NUM_TRAINING}][start] 새로운 학습이 시작됩니다. [${CHARACTER_A}]->[${CHARACTER_B}], epoch [${EPOCH}]" --channel=training_queue
-    echo "[시작] $1 $2 $3"
+    echo "[시작] $CHARACTER_A $CHARACTER_B $EPOCH"
 
 
     echo $IP_ADDRESS
@@ -53,13 +53,13 @@ do
     bash train.sh ${CHARACTER_A} ${CHARACTER_B} ${EPOCH}
 
     # check if train was good or not
-    if [ -f ${TRASH_DIR}/${OUTPUT_DIR}_pix2pix/$3_net_G.pth ]
+    if [ -f ${TRASH_DIR}/${OUTPUT_DIR}_pix2pix/${EPOCH}_net_G.pth ]
     then
         echo "[성공] ${CHARACTER_A} ${CHARACTER_B} ${EPOCH}"
         python send_to_slack.py --msg="[$IP_ADDRESS][$((i/2+1))/${NUM_TRAINING}][done][성공] 학습이 종료됐습니다. [${CHARACTER_A}]->[${CHARACTER_B}], epoch [${EPOCH}]" --channel=training_queue
     else
         echo "**[실패] ${CHARACTER_A} ${CHARACTER_B} ${EPOCH}"
-        printf "[%s]를 찾을 수 없습니다." ${TRASH_DIR}/${OUTPUT_DIR}_pix2pix/$3_net_G.pth
+        printf "[%s]를 찾을 수 없습니다." ${TRASH_DIR}/${OUTPUT_DIR}_pix2pix/${EPOCH}_net_G.pth
         python send_to_slack.py --msg="[$IP_ADDRESS][$((i/2+1))/${NUM_TRAINING}][done][실패] 학습이 종료됐습니다. [${CHARACTER_A}]->[${CHARACTER_B}], epoch [${EPOCH}]****" --channel=training_queue
     fi
 done
