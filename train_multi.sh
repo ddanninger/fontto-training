@@ -5,6 +5,7 @@ args=("$@")
 IP_ADDRESS=`curl bot.whatismyipaddress.com`
 EPOCH=1000
 TRASH_DIR=trash
+JPG_DIR=written_all
 NUM_TRAINING=$#
 NUM_TRAINING=$((NUM_TRAINING/2))
 
@@ -59,7 +60,7 @@ do
         python send_to_slack.py --msg="[$IP_ADDRESS][$((i/2+1))/${NUM_TRAINING}][done][성공] 학습이 종료됐습니다. [${CHARACTER_A}]->[${CHARACTER_B}], epoch [${EPOCH}]" --channel=training_queue
     else
         echo "**[실패] ${CHARACTER_A} ${CHARACTER_B} ${EPOCH}"
-        printf "[%s]를 찾을 수 없습니다." ${TRASH_DIR}/${OUTPUT_DIR}_pix2pix/${EPOCH}_net_G.pth
+        printf "[%s]를 찾을 수 없습니다.\n" ${TRASH_DIR}/${OUTPUT_DIR}_pix2pix/${EPOCH}_net_G.pth
         python send_to_slack.py --msg="[$IP_ADDRESS][$((i/2+1))/${NUM_TRAINING}][done][실패] 학습이 종료됐습니다. [${CHARACTER_A}]->[${CHARACTER_B}], epoch [${EPOCH}]****" --channel=training_queue
     fi
 done
